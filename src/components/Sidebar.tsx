@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import SidebarBoardList from "./SidebarBoardList";
 import { BsPlus } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
     isSidebarOpen: boolean;
@@ -10,18 +11,21 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen = true, setIsSidebarOpen }) => {
 
     const [addList, setAddList] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <>
-            <div className={isSidebarOpen ? "col-span-4" : "col-span-1"}>
+            <div className={isSidebarOpen ? "md:col-span-2 col-span-4" : "col-span-1"}>
                 {isSidebarOpen ? (
                     <section className="sidebar bg-slate-800 h-screen">
                         {/* Main Heading */}
                         <div className="p-4 flex items-center justify-between border-b-2 border-slate-500">
-                            <h1 className="flex items-center font-bold text-slate-300">
-                                <div className="h-8 w-10 mr-2 rounded bg-gradient-to-r from-emerald-700 to-emerald-500"></div>
-                                Workspace
-                            </h1>
+                            <button onClick={() => navigate(`/`)}>
+                                <h1 className="flex items-center font-bold text-slate-300">
+                                    <div className="h-8 w-10 mr-2 rounded bg-gradient-to-r from-emerald-700 to-emerald-500"></div>
+                                    Workspace
+                                </h1>
+                            </button>
 
                             {/* Sidebar Icon */}
                             <div className="fill-white cursor-pointer" onClick={() => setIsSidebarOpen(false)}>
