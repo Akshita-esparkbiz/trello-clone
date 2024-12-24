@@ -5,10 +5,10 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "esnext",
     "strict": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true
   }
