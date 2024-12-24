@@ -134,6 +134,24 @@ const SidebarBoardList: React.FC<addListProps> = ({ addList = false, setAddList 
     return (
         <>
             <ul className="board-list mt-4">
+                {addList && (
+                    <li className="text-slate-400 flex items-center space-between mb-3">
+                        <input
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            type="text"
+                            placeholder="Enter Board Name"
+                            className="rounded-l grow block py-1 pl-1 pr-1 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm w-full"
+                        />
+                        <span
+                            onClick={closeBoardInput}
+                            className="cursor-pointer bg-red-400 p-1 rounded-r"
+                        >
+                            <BiX className="text-2xl text-white" />
+                        </span>
+                    </li>
+                )}
                 {items.map((item) => {
                     const isDropdownOpen = dropdownStates[item.id] || false;
                     const isEditing = editBoardInput[item.id] || false;
@@ -142,14 +160,21 @@ const SidebarBoardList: React.FC<addListProps> = ({ addList = false, setAddList 
                         <li key={item.id} className="text-slate-300 flex items-center justify-between mb-3">
                             {!isEditing ? (
                                 <>
+                                    {/* Board name */}
                                     <button onClick={() => navigate(`/board/${item.id}`)}>
                                         <div className="flex items-center">
+
+                                            {/* color cube */}
                                             <div
                                                 className={`h-6 w-7 mr-2 rounded bg-gradient-to-r ${item.color}`}
                                             ></div>
-                                            {item.name}
+                                            <div>
+                                                {item.name}
+                                            </div>
                                         </div>
                                     </button>
+
+                                    {/* Dropdown */}
                                     <div className="relative">
                                         <button
                                             onClick={() => toggleDropdown(item.id)}
@@ -191,7 +216,7 @@ const SidebarBoardList: React.FC<addListProps> = ({ addList = false, setAddList 
                                     />
                                     <button
                                         onClick={() => handleEditSave(item.id)}
-                                        className="bg-green-600 p-1 rounded-r text-white sm:text-sm"
+                                        className="bg-emerald-600 p-1 rounded-r text-white sm:text-sm"
                                     >
                                         Save
                                     </button>
@@ -200,24 +225,6 @@ const SidebarBoardList: React.FC<addListProps> = ({ addList = false, setAddList 
                         </li>
                     );
                 })}
-                {addList && (
-                    <li className="text-slate-400 flex items-center space-between mb-3">
-                        <input
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            type="text"
-                            placeholder="Enter Board Name"
-                            className="rounded-l grow block py-1 pl-1 pr-1 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm"
-                        />
-                        <span
-                            onClick={closeBoardInput}
-                            className="cursor-pointer bg-red-400 p-1 rounded-r"
-                        >
-                            <BiX className="text-2xl text-white" />
-                        </span>
-                    </li>
-                )}
             </ul>
         </>
     );

@@ -4,22 +4,35 @@ const DB_NAME = 'workspace';
 const DB_VERSION = 1;
 const BOARD_STORE_NAME = 'Boards';
 const LISTS_STORE_NAME = 'Lists';
+const CARDS_STORE_NAME = 'Cards';
 
 // Initialize IndexedDB
 export const initDB = async () => {
   const db = await openDB(DB_NAME, DB_VERSION, {
     upgrade(db) {
+
+      // Board
       if (!db.objectStoreNames.contains(BOARD_STORE_NAME)) {
         db.createObjectStore(BOARD_STORE_NAME, {
           keyPath: 'id',
           autoIncrement: true,
         });
       }
+
+      // List
       if (!db.objectStoreNames.contains(LISTS_STORE_NAME)) {
         db.createObjectStore(LISTS_STORE_NAME, {
           keyPath: 'id',
           autoIncrement: true,
         });
+      }
+
+      // Card
+      if (!db.objectStoreNames.contains(CARDS_STORE_NAME)) {
+        db.createObjectStore(CARDS_STORE_NAME, {
+          keyPath: 'id',
+          autoIncrement: true,
+        })
       }
     },
   });
@@ -60,7 +73,7 @@ export const updateBoard = async (id: number, updatedItem: any) => {
   await db.put(BOARD_STORE_NAME, { ...updatedItem, id });
 };
 
-// FOR LISTS
+// FOR LISTS OF BOARDS
 
 // Add an list to the store
 export const addListToBoard = async (list: any, boardId: number) => {
@@ -103,3 +116,24 @@ export const updateListPosition = async (listId: number, newPosition: number) =>
     await transaction.done;
   }
 };
+
+
+// FOR CARDS OF LISTS
+
+// Add a card to the store
+export const addCardToList = async (card: any, ListId: number) => {
+  const db = await initDB();
+  const id = await db.add(CARDS_STORE_NAME, { ...card, ListId });
+
+  const insertedData = await db.get(CARDS_STORE_NAME, id);
+  return insertedData;
+}
+
+// Get the cards according to the list
+export const getCardsByList = async (ListId: number) => {
+  const db = await initDB();
+  const allCards = await db.getAll(CARDS_STORE_NAME);
+  return allCards
+    .filter((item: any) => item.ListId === ListId)
+    .sort((a, b) => a.position - b.position);
+}

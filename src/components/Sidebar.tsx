@@ -15,11 +15,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen = true, setIsSidebarOpe
 
     return (
         <>
-            <div className={isSidebarOpen ? "md:col-span-2 col-span-4" : "col-span-1"}>
+            <div className={isSidebarOpen ? "col-span-6 md:col-span-2" : "col-span-1"}>
                 {isSidebarOpen ? (
-                    <section className="sidebar bg-slate-800 h-screen">
+                    <section className="sidebar bg-slate-800 h-screen overflow-y-scroll overflow-x-hidden min-w-40
+                        [&::-webkit-scrollbar]:w-2
+                        [&::-webkit-scrollbar-track]:rounded-full
+                        [&::-webkit-scrollbar-track]:bg-slate-100
+                        [&::-webkit-scrollbar-thumb]:rounded-full
+                        [&::-webkit-scrollbar-thumb]:bg-slate-300
+                        dark:[&::-webkit-scrollbar-track]:bg-slate-800
+                        dark:[&::-webkit-scrollbar-thumb]:bg-gray-500"
+                    >
                         {/* Main Heading */}
-                        <div className="p-4 flex items-center justify-between border-b-2 border-slate-500">
+                        <div className="p-4 flex items-center justify-between border-b-2 border-slate-500 bg-slate-800 z-10 sticky top-0">
                             <button onClick={() => navigate(`/`)}>
                                 <h1 className="flex items-center font-bold text-slate-300">
                                     <div className="h-8 w-10 mr-2 rounded bg-gradient-to-r from-emerald-700 to-emerald-500"></div>
@@ -33,8 +41,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen = true, setIsSidebarOpe
                             </div>
                         </div>
 
-                        {/* Your Boards */}
-                        <div className="p-4">
+                        {/* Add a board */}
+                        <div className="bg-slate-800 sticky top-0 z-10 px-4 py-4">
                             <div className="flex items-center justify-between">
                                 <h4 className="font-bold text-slate-400">Your boards</h4>
 
@@ -43,6 +51,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen = true, setIsSidebarOpe
                                     <BsPlus className="fill-slate-300" onClick={() => setAddList(true)} />
                                 </span>
                             </div>
+                        </div>
+
+                        {/* Your Boards */}
+                        <div className="px-4 pt-2">
                             <SidebarBoardList addList={addList} setAddList={setAddList} />
                         </div>
                     </section>
@@ -53,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen = true, setIsSidebarOpe
                             <svg className="bg-slate-500 rounded" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" /></svg>
                         </div>
                     </section>
-                )};
+                )}
             </div>
         </>
     )
